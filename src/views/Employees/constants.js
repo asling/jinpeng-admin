@@ -1,0 +1,1 @@
+export const EMPLOYEES_INIT_ACTION = 'jpAdmin/Employees/EMPLOYEES_INIT_ACTION';

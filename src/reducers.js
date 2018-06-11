@@ -18,7 +18,8 @@ import globalReducer from './layouts/Dashboard/reducer';
 
 // Initial routing state
 const routeInitialState = fromJS({
-  location: null,
+  location: {},
+  action: "",
 });
 
 /**
@@ -41,7 +42,7 @@ function routeReducer(state = routeInitialState, action) {
  */
 export default function createReducer(injectedReducers) {
   return combineReducers({
-    route: routeReducer,
+    router: routeReducer,
     global: globalReducer,
     ...injectedReducers,
   });

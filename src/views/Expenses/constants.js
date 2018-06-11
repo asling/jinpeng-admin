@@ -1,0 +1,1 @@
+export const EXPENSES_INIT_ACTION = 'jpAdmin/Expenses/EXPENSES_INIT_ACTION';

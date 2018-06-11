@@ -1,36 +1,29 @@
 import React from "react";
+import { AppContainer } from 'react-hot-loader'
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router/immutable';
 import "assets/css/material-dashboard-react.css?v=1.2.0";
 // Import selector for `syncHistoryWithStore`
-import { makeSelectLocationState } from 'layouts/Dashboard/selectors';
-import indexRoutes from "routes/index.jsx";
-import configureStore from './store';
-const initialState = {};
-const store = configureStore(initialState, browserHistory);
+import history from "./createBrowserHistory";
+import rootRoute from "routes/index.jsx";
+import store from './createStore';
 
 
-
-const hist = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: makeSelectLocationState(),
-});
-
+console.log("11111");
 // const hist = createBrowserHistory();
 
 ReactDOM.render(
+	<AppContainer>
 	<Provider store={store}>
-		<Router history={hist}>
+		<ConnectedRouter history={history}>
 		    <Switch>
-		      {indexRoutes.map((prop, key) => {
-		        return <Route path={prop.path} component={prop.component} key={key} />;
-		      })}
+		     	<Route path={rootRoute.path} component={rootRoute.component} />
 		    </Switch>
-		</Router>
+		</ConnectedRouter>
 	</Provider>
+	</AppContainer>
   ,
   document.getElementById("root")
 );

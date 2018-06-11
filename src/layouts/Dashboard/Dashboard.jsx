@@ -14,16 +14,50 @@ import appStyle from "assets/jss/material-dashboard-react/appStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+import { injectReducer, injectSagas } from "../../getInjectors";
+// const switchRoutes = (
+//   <Switch>
+//     {dashboardRoutes.map((prop, key) => {
+//       if (prop.redirect)
+//         return <Redirect from={prop.path} to={prop.to} key={key} />;
+//       return <Route path={prop.path} component={prop.component} key={key} />;
+//     })}
+//   </Switch>
+// );
+const errorLoading = (err) => {
+  console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
+};
 
-const switchRoutes = (
-  <Switch>
-    {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.to} key={key} />;
-      return <Route path={prop.path} component={prop.component} key={key} />;
-    })}
-  </Switch>
-);
+const makeSwitchRoutes = () => {
+  return {
+    dashboardRoutes: new Array(...dashboardRoutes),
+    switchRoutes:(
+      <Switch>
+      {dashboardRoutes.map((prop, key) => {
+        console.log("prop",prop);
+        
+        if (prop.redirect)
+          return <Redirect from={prop.path} to={prop.to} key={key} />;
+        return <Route path={prop.path} render={(props)=>{
+          const Component = prop.component;
+          if (prop.saga && prop.reducer){
+            console.log("prop.reducer",prop.reducer);
+            console.log("prop.saga",prop.saga);
+            const importModules = Promise.all([prop.reducer, prop.saga]);
+            importModules.then(([reducer,sagas]) => {
+              console.log("reducer",reducer);
+              injectReducer(reducer.stateName, reducer.default);
+              injectSagas(sagas.default);
+            }).catch(errorLoading);
+          }
+          return <Component {...props} />
+        }} key={key} />;
+      })}
+    </Switch>
+    ),
+  }
+}
+const switchRoutesWrapper = makeSwitchRoutes();
 
 class App extends React.Component {
   state = {
@@ -49,8 +83,8 @@ class App extends React.Component {
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={dashboardRoutes}
-          logoText={"金鹏后台管理系统"}
+          routes={switchRoutesWrapper.dashboardRoutes}
+          logoText={"TEST"}
           logo={logo}
           image={image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -60,17 +94,17 @@ class App extends React.Component {
         />
         <div className={classes.mainPanel} ref="mainPanel">
           <Header
-            routes={dashboardRoutes}
+            routes={switchRoutesWrapper.dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes}</div>
+              <div className={classes.container}>{switchRoutesWrapper.switchRoutes}</div>
             </div>
           ) : (
-            <div className={classes.map}>{switchRoutes}</div>
+            <div className={classes.map}>{switchRoutesWrapper.switchRoutes}</div>
           )}
           {this.getRoute() ? <Footer /> : null}
         </div>
@@ -80,7 +114,8 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+
 };
 
 export default withStyles(appStyle)(App);

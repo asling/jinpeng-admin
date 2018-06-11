@@ -7,7 +7,6 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
-import { getAsyncInjectors } from './utils/asyncInjectors';
 const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState = {}, history) {
@@ -45,7 +44,6 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga = sagaMiddleware.run;
   store.asyncReducers = {}; // Async reducer registry
 
-  const { injectSagas, injectReducer } = getAsyncInjectors(store);
   // const globalSaga = require("./containers/App/sagas");
   
   // injectReducer('global', AppReducer);

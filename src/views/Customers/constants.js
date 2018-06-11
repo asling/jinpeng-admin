@@ -1,0 +1,1 @@
+export const CUSTOMERS_INIT_ACTION = 'jpAdmin/Employees/CUSTOMERS_INIT_ACTION';

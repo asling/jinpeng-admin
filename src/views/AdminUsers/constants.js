@@ -1,0 +1,1 @@
+export const ADMINUSERS_INIT_ACTION = 'jpAdmin/AdminUsers/ADMINUSERS_INIT_ACTION';

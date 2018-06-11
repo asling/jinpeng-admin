@@ -1,0 +1,1 @@
+export const ORDERS_INIT_ACTION = 'jpAdmin/Orders/ORDERS_INIT_ACTION';
