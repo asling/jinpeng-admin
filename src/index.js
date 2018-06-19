@@ -9,18 +9,19 @@ import "assets/css/material-dashboard-react.css?v=1.2.0";
 import history from "./createBrowserHistory";
 import rootRoute from "routes/index.jsx";
 import store from './createStore';
-
-
-console.log("11111");
 // const hist = createBrowserHistory();
 
 ReactDOM.render(
 	<AppContainer>
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
-		    <Switch>
-		     	<Route path={rootRoute.path} component={rootRoute.component} />
-		    </Switch>
+			<Switch>
+				{rootRoute.map( (item,key) => {
+					return (
+					    <Route  key={key} path={item.path} component={item.component} />
+					)
+				})}
+		   </Switch>  
 		</ConnectedRouter>
 	</Provider>
 	</AppContainer>

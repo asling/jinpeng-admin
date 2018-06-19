@@ -18,6 +18,8 @@ export const LOGIN_ACTION = 'app/App/LOGIN_ACTION';
 export const LOGIN_SUCCESS_ACTION = 'app/App/LOGIN_SUCCESS_ACTION';
 export const LOGIN_FAIL_ACTION = 'app/App/LOGIN_FAIL_ACTION';
 
+
+
 export const AUTH = "boilerplate/App/AUTH";
 export const AUTH_SUCCESS = "boilerplate/App/AUTH_SUCCESS";
 export const AUTH_FAIL = "boilerplate/App/AUTH_FAIL";
@@ -25,3 +27,14 @@ export const AUTH_FAIL = "boilerplate/App/AUTH_FAIL";
 export const LOGOFF_ACTION = 'boilerplate/App/LOGOFF_ACTION';
 export const LOGOFF_SUCCESS_ACTION = 'boilerplate/App/LOGOFF_ACTION';
 export const LOGOFF_FAIL_ACTION = 'boilerplate/App/LOGOFF_FAIL_ACTION';
+/**
+ * REGISTER_ACTION,
+  REGISTER_SUCCESS_ACTION,
+  REGISTER_FAIL_ACTION,
+ */
+export const REGISTER_ACTION = "boilerplate/App/REGISTER_ACTION";
+export const REGISTER_SUCCESS_ACTION = "boilerplate/App/REGISTER_SUCCESS_ACTION";
+export const REGISTER_FAIL_ACTION = "boilerplate/App/REGISTER_FAIL_ACTION";
+
+export const REGISTER_ERROR_CANCEL_ACTION = 'boilerplate/App/REGISTER_ERROR_CANCEL_ACTION';
+export const LOGIN_ERROR_CANCEL_ACTION = 'boilerplate/App/LOGIN_ERROR_CANCEL_ACTION';

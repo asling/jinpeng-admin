@@ -5,47 +5,44 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
-
 import { Header, Footer, Sidebar } from "components";
-
 import dashboardRoutes from "routes/dashboard.jsx";
-
 import appStyle from "assets/jss/material-dashboard-react/appStyle.jsx";
-
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 import { injectReducer, injectSagas } from "../../getInjectors";
-// const switchRoutes = (
-//   <Switch>
-//     {dashboardRoutes.map((prop, key) => {
-//       if (prop.redirect)
-//         return <Redirect from={prop.path} to={prop.to} key={key} />;
-//       return <Route path={prop.path} component={prop.component} key={key} />;
-//     })}
-//   </Switch>
-// );
+import { AuthContext } from "providers/Auth";
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { authAction, logoffAction } from "../actions";
+import { makeGlobalAuthInfo } from "../selectors";
+
+// function styles(themes){
+//   return {}
+// }
+
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
 };
 
 const makeSwitchRoutes = () => {
   return {
-    dashboardRoutes: new Array(...dashboardRoutes),
+    dashboardRoutes: new Array(...dashboardRoutes.filter(item => !item.exclude)),
     switchRoutes:(
       <Switch>
       {dashboardRoutes.map((prop, key) => {
-        console.log("prop",prop);
+        // console.log("prop",prop);
         
         if (prop.redirect)
           return <Redirect from={prop.path} to={prop.to} key={key} />;
         return <Route path={prop.path} render={(props)=>{
           const Component = prop.component;
           if (prop.saga && prop.reducer){
-            console.log("prop.reducer",prop.reducer);
-            console.log("prop.saga",prop.saga);
+            // console.log("prop.reducer",prop.reducer);
+            // console.log("prop.saga",prop.saga);
             const importModules = Promise.all([prop.reducer, prop.saga]);
             importModules.then(([reducer,sagas]) => {
-              console.log("reducer",reducer);
+              // console.log("reducer",reducer);
               injectReducer(reducer.stateName, reducer.default);
               injectSagas(sagas.default);
             }).catch(errorLoading);
@@ -79,8 +76,10 @@ class App extends React.Component {
     this.refs.mainPanel.scrollTop = 0;
   }
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes, authInfo, ...rest } = this.props;
+    console.log("authInfo",authInfo);
     return (
+      <AuthContext.Provider value={authInfo}>
       <div className={classes.wrapper}>
         <Sidebar
           routes={switchRoutesWrapper.dashboardRoutes}
@@ -109,13 +108,27 @@ class App extends React.Component {
           {this.getRoute() ? <Footer /> : null}
         </div>
       </div>
+      </AuthContext.Provider>
     );
   }
 }
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-
 };
+export function mapDispatchToProps(dispatch) {
+  return {
+    onLoad: () => {
+      dispatch(authAction());
+    },
+    onLogoff: () => {
+      dispatch(logoffAction());
+    }
+  };
+}
 
-export default withStyles(appStyle)(App);
+const mapStateToProps = createStructuredSelector({
+  authInfo: makeGlobalAuthInfo(),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(appStyle)(App));
+
