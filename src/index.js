@@ -10,7 +10,6 @@ import history from "./createBrowserHistory";
 import rootRoute from "routes/index.jsx";
 import store from './createStore';
 // const hist = createBrowserHistory();
-
 ReactDOM.render(
 	<AppContainer>
 	<Provider store={store}>
@@ -18,7 +17,7 @@ ReactDOM.render(
 			<Switch>
 				{rootRoute.map( (item,key) => {
 					return (
-					    <Route  key={key} path={item.path} component={item.component} />
+					    <Route key={key} path={item.path} component={item.component} />
 					)
 				})}
 		   </Switch>  

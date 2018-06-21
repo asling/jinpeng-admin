@@ -11,11 +11,10 @@ import appStyle from "assets/jss/material-dashboard-react/appStyle.jsx";
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 import { injectReducer, injectSagas } from "../../getInjectors";
-import { AuthContext } from "providers/Auth";
+
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { authAction, logoffAction } from "../actions";
-import { makeGlobalAuthInfo } from "../selectors";
 
 // function styles(themes){
 //   return {}
@@ -76,10 +75,8 @@ class App extends React.Component {
     this.refs.mainPanel.scrollTop = 0;
   }
   render() {
-    const { classes, authInfo, ...rest } = this.props;
-    console.log("authInfo",authInfo);
+    const { classes, ...rest } = this.props;
     return (
-      <AuthContext.Provider value={authInfo}>
       <div className={classes.wrapper}>
         <Sidebar
           routes={switchRoutesWrapper.dashboardRoutes}
@@ -108,7 +105,6 @@ class App extends React.Component {
           {this.getRoute() ? <Footer /> : null}
         </div>
       </div>
-      </AuthContext.Provider>
     );
   }
 }
@@ -128,7 +124,7 @@ export function mapDispatchToProps(dispatch) {
 }
 
 const mapStateToProps = createStructuredSelector({
-  authInfo: makeGlobalAuthInfo(),
+  
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(appStyle)(App));
 

@@ -11,7 +11,6 @@ import { PropTypes } from 'prop-types';
 import Dialog, { DialogTitle, DialogActions,DialogContent,DialogContentText } from 'material-ui/Dialog';
 import { withStyles } from 'material-ui/styles';
 import Button from 'material-ui/Button';
-
 const styles = () => {
 	return {
 		"container": {
@@ -21,28 +20,34 @@ const styles = () => {
 	}
 }
  
-class ErrorDialog extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class ErrorDialog extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props){
+    console.log('this.props.',props);
   	super(props);
   	this.state = {
-  		open: this.props.defaultOpen || false,
+  		open: this.props.open || this.props.defaultOpen || false,
   	}
   	this.handleClose = this.handleClose.bind(this);
   }
   handleClose(callback){
+    console.log("handleClose");
   	this.setState({
   		open: !this.state.open,
   	});
+    console.log("callback",callback);
   	callback && callback();
   }
 
   componentWillReceiveProps(next){
+    console.log("next",next);
   	this.setState({
   		open: next.open,
   	});
   }
 
   shouldComponentUpdate(nextProps,nextState){
+    console.log("nextProps",nextProps);
+    console.log("nextState",nextState);
   	if(nextState.open != null && nextState.open !== this.state.open) return true;
   	return false;
 

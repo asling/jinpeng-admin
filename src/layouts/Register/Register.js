@@ -18,7 +18,7 @@ import { LinearProgress } from 'material-ui/Progress';
 //global data
 import Validator, { makeCondition } from "utils/formfieldValidator";
 import { registerAction,registerErrorCancelAction } from '../actions';
-import { makeGlobalAuthLoading,makeGlobalRegisterError } from "../selectors";
+import { makeGlobalAuthLoading, makeGlobalRegisterError, makeGlobalAuthInfo } from "../selectors";
 import ErrorDialog from "components/ErrorDialog"; 
 function styles(themes){
   return {
@@ -150,41 +150,40 @@ export class Register extends React.PureComponent { // eslint-disable-line react
   }
 
   componentDidUpdate(){
-    const { auth } = this.context;
-    // console.log("componentDidUpdate auth",auth);
-    // console.log("this.authContext",this.authContext);
-    // const auth = this.context.auth && this.context.auth.auth;
-    if(auth){
-      // console.log("auth",auth);
-      const authObj = auth.auth;
-      // console.log("auth.auth",authObj && authObj.status && authObj.status > 0);
-      if(authObj && authObj.status && authObj.status > 0  && this.authContext == null){
-        this.authContext = authObj;
-        const { router } = this.props;
-        router.replace("/");
-      }
-      this.setState({
-        warnningString: this._differLoginStatus(authObj),
-      });
-    }
+    // const { auth } = this.context;
+    // // console.log("componentDidUpdate auth",auth);
+    // // console.log("this.authContext",this.authContext);
+    // // const auth = this.context.auth && this.context.auth.auth;
+    // if(auth){
+    //   // console.log("auth",auth);
+    //   const authObj = auth.auth;
+    //   // console.log("auth.auth",authObj && authObj.status && authObj.status > 0);
+    //   if(authObj && authObj.status && authObj.status > 0  && this.authContext == null){
+    //     this.authContext = authObj;
+    //     const { router } = this.props;
+    //     router.replace("/");
+    //   }
+    //   this.setState({
+    //     warnningString: this._differLoginStatus(authObj),
+    //   });
+    // }
   }
 
   _differLoginStatus(authInfo){
     if(!authInfo || authInfo.status == null) return false;
-    switch(authInfo.status){
-      case -2:
-        return authInfo.user.err && authInfo.user.err || "Login Failed.Username or Password Error!";
-      case -3: 
-        return authInfo.user.err && authInfo.user.err || "Register Failed.Username or Password Error!";
-      default :
-        return false;
-    } 
+    if(authInfo.status === -1){
+      return 'Register Failed.Username or Password Error!';
+    }else{
+      return false;
+    }
   }
 
 
   render() {
-    const { classes, authLoading, registerError } = this.props;
-    const { usernameField, passwordField, password2Field, warnningString } = this.state;
+    const { classes, authLoading, registerError, authInfo, accessTokenUpdate } = this.props;
+    const { usernameField, passwordField, password2Field } = this.state;
+    const warnningString = this._differLoginStatus(authInfo);
+    accessTokenUpdate(authInfo);
     const noEmptyCon = makeCondition(function(str){
       return !(str === "");
     },this._errorHandler("Username do not be empty"),this._successHandler(""));
@@ -342,6 +341,7 @@ Register.propTypes = {
   register: PropTypes.func,
   registerError: PropTypes.bool,
   registerErrorCancel: PropTypes.func,
+  authInfo: PropTypes.object,
 };
 
 Register.contextTypes = {
@@ -351,6 +351,7 @@ Register.contextTypes = {
 const mapStateToProps = createStructuredSelector({
   authLoading: makeGlobalAuthLoading(),
   registerError: makeGlobalRegisterError(),
+  authInfo: makeGlobalAuthInfo(),
 });
 
 function mapDispatchToProps(dispatch) {

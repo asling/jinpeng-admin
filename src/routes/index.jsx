@@ -1,4 +1,4 @@
-import Dashboard from "layouts/Dashboard/Dashboard.jsx";
+import Dashboard from "layouts/Dashboard";
 import Login from "layouts/Login";
 import Register from "layouts/Register";
 

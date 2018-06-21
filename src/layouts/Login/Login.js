@@ -17,7 +17,7 @@ import Tooltip from 'material-ui/Tooltip';
 import { Link } from "react-router-dom";
 import { LinearProgress } from 'material-ui/Progress';
 //global data
-import { makeGlobalAuthLoading,makeGlobalLoginError } from '../selectors';
+import { makeGlobalAuthLoading,makeGlobalLoginError, makeGlobalAuthInfo } from '../selectors';
 import { loginAction,loginErrorCancelAction } from '../actions';
 import ErrorDialog from "components/ErrorDialog"; 
 function styles(themes){
@@ -47,10 +47,13 @@ const LogoWrapper = styled(Link)`
 `;
 const WarnningDialog = (props) => {
   const { content,title, ...others } = props;
+  console.log("props",props);
   return (
     <ErrorDialog content={content || "Sorry, something wrong."} title="Warnning" {...others}> </ErrorDialog> 
   );
 }
+
+
 
 export class Login extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props){
@@ -222,33 +225,30 @@ export class Login extends React.PureComponent { // eslint-disable-line react/pr
   }
 
   componentDidUpdate(){
-    const { auth } = this.context;
-    console.log("componentDidUpdate auth",auth);
-    // console.log("this.authContext",this.authContext);
-    // const auth = this.context.auth && this.context.auth.auth;
-    if(auth){
-      // console.log("auth",auth);
-      const authObj = auth.auth;
-      // console.log("auth.auth",authObj && authObj.status && authObj.status > 0);
-      if(authObj && authObj.status && authObj.status > 0  && this.authContext == null){
-        this.authContext = authObj;
-        const { router } = this.props;
-        router.replace("/");
-      }
-      this.setState({
-        warnningString: this._differLoginStatus(authObj),
-      });
-    }
+    // const { auth } = this.context;
+    // console.log("componentDidUpdate auth",auth);
+    // // console.log("this.authContext",this.authContext);
+    // // const auth = this.context.auth && this.context.auth.auth;
+    // if(auth){
+    //   // console.log("auth",auth);
+    //   const authObj = auth.auth;
+    //   // console.log("auth.auth",authObj && authObj.status && authObj.status > 0);
+    //   if(authObj && authObj.status && authObj.status > 0  && this.authContext == null){
+    //     this.authContext = authObj;
+    //     const { router } = this.props;
+    //     router.replace("/");
+    //   }
+    //   this.setState({
+    //     warnningString: this._differLoginStatus(authObj),
+    //   });
+    // }
   }
 
   _differLoginStatus(authInfo){
     if(!authInfo || authInfo.status == null) return false;
-    switch(authInfo.status){
-      case -2:
-        return authInfo.user.err && authInfo.user.err || "Login Failed.Username or Password Error!";
-      case -3: 
-        return authInfo.user.err && authInfo.user.err || "Register Failed.Username or Password Error!";
-      default :
+    if(authInfo.status === -1){
+        return "Login Failed.Username or Password Error!";
+    }else{  
         return false;
     } 
   }
@@ -257,8 +257,9 @@ export class Login extends React.PureComponent { // eslint-disable-line react/pr
 
 
   render() {
-    const { classes, authLoading, loginError } = this.props;
-    const { auth } = this.context;
+    const { classes, authLoading, loginError, authInfo, accessTokenUpdate } = this.props;
+    console.log("authInfo",authInfo);
+    accessTokenUpdate(authInfo);
     // const auth = this.context.auth && this.context.auth.auth;
     // if(auth){
     //   console.log("auth",auth);
@@ -269,8 +270,10 @@ export class Login extends React.PureComponent { // eslint-disable-line react/pr
     //     router.replace("/");
     //   }
     // }
-    
-    const { usernameField, passwordField, warnningString } = this.state;
+    console.log("loginError",loginError);
+    const warnningString = this._differLoginStatus(authInfo);
+    console.log("warnningString",warnningString);
+    const { usernameField, passwordField } = this.state;
     const submitEnabled = (!(usernameField.dirty && !usernameField.error ) ||  !(passwordField.dirty && !passwordField.error));
     return (
       <div className={classes.container} >
@@ -325,7 +328,7 @@ export class Login extends React.PureComponent { // eslint-disable-line react/pr
             }}
             
           />
-          <Button disabled={submitEnabled}   type="submit" variant="raised" fullWidth color="primary">Login</Button>
+          <Button disabled={submitEnabled} type="submit" variant="raised" fullWidth color="primary">Login</Button>
           {authLoading && <LinearProgress  />}
           <Tooltip title="GO TO REGISTER" className={classes.tooltip}>
             <Link to="/register">I have no account yet</Link>
@@ -344,6 +347,7 @@ Login.propTypes = {
   login: PropTypes.func.isRequired,
   authLoading: PropTypes.bool.isRequired,
   loginError: PropTypes.bool,
+  authInfo: PropTypes.object,
 };
 
 Login.contextTypes = {
@@ -353,6 +357,7 @@ Login.contextTypes = {
 const mapStateToProps = createStructuredSelector({
   authLoading: makeGlobalAuthLoading(),
   loginError: makeGlobalLoginError(),
+  authInfo: makeGlobalAuthInfo(),
 });
 
 function mapDispatchToProps(dispatch) {

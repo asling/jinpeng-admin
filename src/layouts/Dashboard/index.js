@@ -1,8 +1,8 @@
 import React from 'react';
 import { AuthContext, loadToken, authToken } from "providers/Auth";
 import { Redirect } from "react-router-dom";
-import Login from "./Login";
-class LoginWrapper extends React.Component{
+import Dashboard from "./Dashboard.jsx";
+class DashboardWrapper extends React.Component{
 	constructor(props){
 		super(props);
 		this._accessTokenUpdate = this._accessTokenUpdate.bind(this);
@@ -27,19 +27,17 @@ class LoginWrapper extends React.Component{
 
 	render(){
 		const props = this.props;
-		console.log("this.state.token",this.state.token);
-		console.log("auth",authToken(this.state.token));
 		return (
 			<AuthContext.Provider value={authToken(this.state.token)}>
-			<AuthContext.Consumer>
-				{accessToken => {
-					console.log("accessToken",accessToken && accessToken.code <= 0);
-					return accessToken && accessToken.code > 0 ?  <Redirect to="/" /> : <Login accessTokenUpdate={this._accessTokenUpdate} accessToken={accessToken.token} {...props} />
-				}}
-			</AuthContext.Consumer>
+				<AuthContext.Consumer>
+					{accessToken => {
+						console.log("accessToken",accessToken);
+						return accessToken && accessToken.code <= 0 ?  <Redirect to="/login" /> : <Dashboard accessTokenUpdate={this._accessTokenUpdate} accessToken={accessToken.token} {...props} />
+					}}
+				</AuthContext.Consumer>
 			</AuthContext.Provider>
 		)
 	}
 }
 
-export default LoginWrapper;
+export default DashboardWrapper;
