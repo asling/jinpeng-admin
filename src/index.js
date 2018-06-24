@@ -6,9 +6,13 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router/immutable';
 import "assets/css/material-dashboard-react.css?v=1.2.0";
 // Import selector for `syncHistoryWithStore`
-import history from "./createBrowserHistory";
 import rootRoute from "routes/index.jsx";
-import store from './createStore';
+import { createBrowserHistory } from "history";
+import configureStore from './configureStore';
+
+const history = createBrowserHistory();
+const initialState = {};
+const store = configureStore(initialState, history);
 // const hist = createBrowserHistory();
 ReactDOM.render(
 	<AppContainer>

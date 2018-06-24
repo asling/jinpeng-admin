@@ -48,6 +48,16 @@ export default function configureStore(initialState = {}, history) {
 
   const { injectSagas, injectReducer } = getAsyncInjectors(store);
   injectSagas(AppSaga);
+  store.injectedReducers = {}; // Reducer registry
+  store.injectedSagas = {}; // Saga registry
+
+  // Make reducers hot reloadable, see http://mxs.is/googmo
+  /* istanbul ignore next */
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      store.replaceReducer(createReducer(store.injectedReducers));
+    });
+  }
   // injectReducer('global', AppReducer);
   // globalSaga.then(sagas => {
   //   console.log("sagas");
@@ -58,17 +68,17 @@ export default function configureStore(initialState = {}, history) {
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
-  if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      import('./reducers').then((reducerModule) => {
-        const createReducers = reducerModule.default;
+  // if (module.hot) {
+  //   module.hot.accept('./reducers', () => {
+  //     import('./reducers').then((reducerModule) => {
+  //       const createReducers = reducerModule.default;
        
-        const nextReducers = createReducers(store.asyncReducers);
+  //       const nextReducers = createReducers(store.asyncReducers);
 
-        store.replaceReducer(nextReducers);
-      });
-    });
-  }
+  //       store.replaceReducer(nextReducers);
+  //     });
+  //   });
+  // }
 
   return store;
 }

@@ -32,7 +32,12 @@ import {
 } from "variables/charts";
 
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
+import reducer from './reducer';
+import saga from './sagas';
+import injectReducer from 'utils/injectReducer';
+import injectSaga from 'utils/injectSaga';
 
 import dashboardStyle from "assets/jss/material-dashboard-react/dashboardStyle";
 
@@ -75,10 +80,7 @@ class Dashboard extends React.Component {
     const customersFormat = this._customersFormating(customers);
     const expensesFormat = this._expensesFormating(expenses);
     return (
-      <AuthContext.Consumer>
-        { accessToken => {
-          this.token = this._getToken(accessToken);
-        }}
+      <div>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={6}>
             <RegularCard
@@ -113,7 +115,7 @@ class Dashboard extends React.Component {
             />
           </ItemGrid>
         </Grid>
-      </AuthContext.Consumer>
+      </div>
     );
   }
 }
@@ -123,6 +125,10 @@ Dashboard.propTypes = {
   expenses: PropTypes.object,
   customers: PropTypes.object,
 };
+
+Dashboard.contextTypes = {
+  router: PropTypes.object,
+}
 
 export function mapDispatchToProps(dispatch) {
   return {
@@ -138,7 +144,16 @@ const mapStateToProps = createStructuredSelector({
   customers: makeDashboardCustomers(),
   dataLoading: makeDashboardLoading(),
 });
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(dashboardStyle)(Dashboard));
+const withReducer = injectReducer({ key: 'dashboard', reducer });
+const withSaga = injectSaga({ key: 'dashboard', saga });
+
+export default compose(
+  withReducer,
+  withSaga,
+  withConnect,
+)(withStyles(dashboardStyle)(Dashboard));
+// export default connect(mapStateToProps, mapDispatchToProps)(withStyles(dashboardStyle)(Dashboard));
 
  

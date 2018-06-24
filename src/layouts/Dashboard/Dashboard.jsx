@@ -39,12 +39,12 @@ const makeSwitchRoutes = () => {
           if (prop.saga && prop.reducer){
             // console.log("prop.reducer",prop.reducer);
             // console.log("prop.saga",prop.saga);
-            const importModules = Promise.all([prop.reducer, prop.saga]);
-            importModules.then(([reducer,sagas]) => {
-              // console.log("reducer",reducer);
-              injectReducer('dashboard', reducer.default);
-              injectSagas(sagas.default);
-            }).catch(errorLoading);
+            // const importModules = Promise.all([prop.reducer, prop.saga]);
+            // importModules.then(([reducer,sagas]) => {
+            //   // console.log("reducer",reducer);
+            //   injectReducer('dashboard', reducer.default);
+            //   injectSagas(sagas.default);
+            // }).catch(errorLoading);
           }
           return <Component {...props} />
         }} key={key} />;

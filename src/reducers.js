@@ -26,9 +26,11 @@ const routeInitialState = fromJS({
  * Merge route into the global application state
  */
 function routeReducer(state = routeInitialState, action) {
+  console.log("action",action);
   switch (action.type) {
     /* istanbul ignore next */
     case LOCATION_CHANGE:
+      console.log("action.payload",action.payload);
       return state.merge({
         location: action.payload,
       });
@@ -43,7 +45,7 @@ function routeReducer(state = routeInitialState, action) {
 export default function createReducer(injectedReducers) {
   console.log("injectedReducers",injectedReducers);
   return combineReducers({
-    router: routeReducer,
+    route: routeReducer,
     global: globalReducer,
     ...injectedReducers,
   });

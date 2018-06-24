@@ -8,6 +8,8 @@ import { connectRouter, routerMiddleware } from 'connected-react-router/immutabl
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
 
+import { getAsyncInjectors } from 'utils/asyncInjectors';
+import AppSaga from "layouts/sagas";
 const sagaMiddleware = createSagaMiddleware();
 
 export default function configureStore(initialState = {}, history) {
@@ -36,15 +38,21 @@ export default function configureStore(initialState = {}, history) {
       })
       : compose;
   /* eslint-enable */
-
+  const reducers = createReducer();
   const store = createStore(
-    connectRouter(history)(createReducer()),
+    connectRouter(history)(reducers),
     fromJS(initialState),
     composeEnhancers(...enhancers)
   );
 
+  console.log("store1",store.getState().toJS());
+
   // Extensions
   store.runSaga = sagaMiddleware.run;
+  store.asyncReducers = {}; // Async reducer registry
+
+  const { injectSagas, injectReducer } = getAsyncInjectors(store);
+  injectSagas(AppSaga);
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
 
@@ -52,7 +60,8 @@ export default function configureStore(initialState = {}, history) {
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      store.replaceReducer(connectRouter(history)(createReducer(store.injectedReducers)));
+      console.log("111");
+      store.replaceReducer(createReducer(store.injectedReducers));
     });
   }
 
