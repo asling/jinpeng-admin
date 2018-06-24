@@ -42,7 +42,7 @@ const makeSwitchRoutes = () => {
             const importModules = Promise.all([prop.reducer, prop.saga]);
             importModules.then(([reducer,sagas]) => {
               // console.log("reducer",reducer);
-              injectReducer(reducer.stateName, reducer.default);
+              injectReducer('dashboard', reducer.default);
               injectSagas(sagas.default);
             }).catch(errorLoading);
           }

@@ -4,7 +4,10 @@
 
 import { createSelector } from 'reselect';
 
-const selectGlobal = (state) => state.get('global');
+const selectGlobal = (state) => {
+  console.log("selectGlobal",state.get('global'));
+  return state.get('global');
+}
 
 const makeSelectCurrentUser = () => createSelector(
   selectGlobal,
@@ -44,7 +47,10 @@ const makeSelectLocationState = () => {
 
 const makeGlobalAuthInfo = () => createSelector(
   selectGlobal,
-  (globalState) => globalState.get("authInfo")
+  (globalState) => {
+    console.log("globalState",globalState);
+    return globalState.get("authInfo");
+  }
 );
 
 const makeGlobalAuthLoading = () => createSelector(

@@ -26,8 +26,8 @@ const dashboardRoutes = [
     navbarName: "Material Dashboard",
     icon: Dashboard,
     component: DashboardPage,
-    saga: import("views/Employees/sagas"),
-    reducer: import("views/Employees/reducer"),
+    saga: import("views/Dashboard/sagas"),
+    reducer: import("views/Dashboard/reducer"),
   },
   {
     path: "/user",
