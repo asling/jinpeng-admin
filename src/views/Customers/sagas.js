@@ -22,11 +22,7 @@ export function* getInit(action) {
 /**
  * Root saga manages watcher lifecycle
  */
-export function* getInitSaga() {
+export default function* () {
   yield takeLatest(CUSTOMERS_INIT_ACTION, getInitSaga);
 }
 
-// Bootstrap sagas
-export default [
-  getInitSaga,
-];

@@ -31,10 +31,15 @@ const makeSwitchRoutes = () => {
       <Switch>
       {dashboardRoutes.map((prop, key) => {
         // console.log("prop",prop);
-        
+        let path;
         if (prop.redirect)
           return <Redirect from={prop.path} to={prop.to} key={key} />;
-        return <Route path={prop.path} render={(props)=>{
+        if(prop.params){
+          path = `${prop.path}/:${prop.params}`;
+        }else{
+          path = prop.path;
+        }
+        return <Route path={path} render={(props)=>{
           const Component = prop.component;
           if (prop.saga && prop.reducer){
             // console.log("prop.reducer",prop.reducer);
@@ -46,6 +51,7 @@ const makeSwitchRoutes = () => {
             //   injectSagas(sagas.default);
             // }).catch(errorLoading);
           }
+          
           return <Component {...props} />
         }} key={key} />;
       })}

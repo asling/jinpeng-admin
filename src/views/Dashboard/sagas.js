@@ -65,7 +65,13 @@ export function* getExpenses(action){
 	}
 }
 
-export default function* getExpensesSaga(){
+export function* getExpensesSaga(){
 	yield takeLatest(EXPENSES_FETCH_ACTION,getExpenses);
+}
+
+
+export default function*() {
+	yield takeLatest(EXPENSES_FETCH_ACTION,getExpenses);
+	yield takeLatest(CUSTOMERS_FETCH_ACTION, getCustomers);
 }
 

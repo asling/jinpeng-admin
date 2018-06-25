@@ -4,15 +4,15 @@
 import { createSelector } from 'reselect';
 
 const selectDashboard = (state) => {
-  console.log("state",state);
-  console.log("state.get('dashboard')",state.get('dashboard'));
+  // console.log("state",state);
+  // console.log("state.get('dashboard')",state.get('dashboard'));
   return state.get('dashboard');
 };
 
 const makeDashboardLoading = () => createSelector(
   selectDashboard,
   (subState) => {
-    console.log("subState1",subState);
+    // console.log("subState1",subState);
     return subState.get('dataLoading');
   }
 );
@@ -20,7 +20,7 @@ const makeDashboardLoading = () => createSelector(
 const makeDashboardCustomers = () => createSelector(
 	selectDashboard,
 	(subState) => {
-    console.log("subState2",subState);
+    // console.log("subState2",subState);
     return subState.get("customers");
   }
 );
@@ -28,7 +28,7 @@ const makeDashboardCustomers = () => createSelector(
 const makeDashboardExpenses = () => createSelector(
 	selectDashboard,
 	(subState) => {
-    console.log("subState3",subState);
+    // console.log("subState3",subState);
     return subState.get("expenses");
   }
 );

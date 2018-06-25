@@ -1,14 +1,28 @@
 import { fromJS } from 'immutable';
-import { EMPLOYEES_INIT_ACTION } from "./constants";
+import { 
+	CUSTOMERDETAIL_FETCH_ACTION,
+	CUSTOMERDETAIL_FETCH_SUCCESS_ACTION,
+	CUSTOMERDETAIL_FETCH_FAIL_ACTION,
+
+	CUSTOMERS_FETCH_ACTION,
+	CUSTOMERS_FETCH_SUCCESS_ACTION,
+	CUSTOMERS_FETCH_FAIL_ACTION,
+ } from "./constants";
 const initialState = fromJS({
 	customers: [],
-	customersLoading: false,
+	customerDetail: {},
+	dataLoading: false,
 });
 
 function employeesReducer(state = initialState, action){
 	switch(action.type){
-		case EMPLOYEES_INIT_ACTION:
-			return state.set("customersLoading",true);
+		case CUSTOMERS_FETCH_ACTION:
+		case CUSTOMERDETAIL_FETCH_ACTION:
+			return state.set("dataLoading",true);
+		case CUSTOMERDETAIL_FETCH_SUCCESS_ACTION:
+			return state.set("customerDetail",action.data).set("dataLoading",false);
+		case CUSTOMERDETAIL_FETCH_SUCCESS_ACTION:
+			return state.set("customerDetail",action.err).set("dataLoading",false);
 		default: 
 			return state;
 	}
