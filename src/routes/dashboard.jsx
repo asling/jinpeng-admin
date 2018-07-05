@@ -1,3 +1,4 @@
+import CustomersPage from 'views/Customers';
 import DashboardPage from "views/Dashboard";
 import UserProfile from "views/UserProfile/UserProfile.jsx";
 import TableList from "views/TableList/TableList.jsx";
@@ -6,7 +7,7 @@ import Icons from "views/Icons/Icons.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import NotificationsPage from "views/Notifications/Notifications.jsx";
 import Employees from 'views/Employees/Employees.jsx';
-import Customers from 'views/Customers';
+
 
 
 import {
@@ -57,7 +58,7 @@ const dashboardRoutes = [
     sidebarName: "客户管理",
     navbarName: "客户管理",
     icon: BubbleChart,
-    component: Customers
+    component: CustomersPage
   },
   // {
   //   path: "/maps",

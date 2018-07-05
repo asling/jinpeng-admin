@@ -12,3 +12,5 @@ const customerDetailStyle = theme => ({
     width: 200,
   },
 });
+
+export default customerDetailStyle;

@@ -11,7 +11,7 @@ class DashboardWrapper extends React.Component{
 		}
 	}
 	_accessTokenUpdate(authInfo){
-		console.log("_accessTokenUpdate authInfo",authInfo);
+		// console.log("_accessTokenUpdate authInfo",authInfo);
 		if(authInfo && authInfo.status >= 1){
 			this.setState({
 				token: authInfo.data
@@ -20,7 +20,7 @@ class DashboardWrapper extends React.Component{
 	}
 
 	shouldComponentUpdate(nextProps,nextState){
-		console.log("nextState.token.code === this.state.code && nextState.token.code === -1",nextState.token.code === this.state.token.code && nextState.token.code === -1);
+		// console.log("nextState.token.code === this.state.code && nextState.token.code === -1",nextState.token.code === this.state.token.code && nextState.token.code === -1);
 		if(nextState.token.code === this.state.token.code && nextState.token.code === -1) return false;
 		return true;
 	}
@@ -31,7 +31,7 @@ class DashboardWrapper extends React.Component{
 			<AuthContext.Provider value={authToken(this.state.token)}>
 				<AuthContext.Consumer>
 					{accessToken => {
-						console.log("accessToken Dashboard",accessToken);
+						// console.log("accessToken Dashboard",accessToken);
 						return accessToken && accessToken.code <= 0 ?  <Redirect to="/login" /> : <Dashboard accessTokenUpdate={this._accessTokenUpdate} accessToken={accessToken.token} {...props} />
 					}}
 				</AuthContext.Consumer>

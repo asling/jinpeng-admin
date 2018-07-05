@@ -45,7 +45,7 @@ export default function configureStore(initialState = {}, history) {
     composeEnhancers(...enhancers)
   );
 
-  console.log("store1",store.getState().toJS());
+  // console.log("store1",store.getState().toJS());
 
   // Extensions
   store.runSaga = sagaMiddleware.run;
@@ -60,7 +60,7 @@ export default function configureStore(initialState = {}, history) {
   /* istanbul ignore next */
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      console.log("111");
+      // console.log("111");
       store.replaceReducer(createReducer(store.injectedReducers));
     });
   }

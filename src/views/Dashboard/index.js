@@ -10,7 +10,7 @@ class DashboardWrapper extends React.Component{
 	}
 
 	shouldComponentUpdate(nextProps,nextState){
-		console.log("nextState.token.code === this.state.code && nextState.token.code === -1",nextState.token.code === this.state.token.code && nextState.token.code === -1);
+		// console.log("nextState.token.code === this.state.code && nextState.token.code === -1",nextState.token.code === this.state.token.code && nextState.token.code === -1);
 		if(nextState.token.code === this.state.token.code && nextState.token.code === -1) return false;
 		return true;
 	}
@@ -20,7 +20,7 @@ class DashboardWrapper extends React.Component{
 		return (
 				<AuthContext.Consumer>
 					{accessToken => {
-						console.log("accessToken DashboardPage",accessToken);
+						// console.log("accessToken DashboardPage",accessToken);
 						return accessToken && accessToken.code <= 0 ? <Dashboard {...props} /> : <Dashboard accessToken={accessToken.token} {...props} />;
 					}}
 				</AuthContext.Consumer>

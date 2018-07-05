@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
   _toExpenseDetail(id){
     const { history } = this.props;
     const destinationPath =  `/customers/${id}`;
-    console.log("destinationPath",destinationPath);
+    // console.log("destinationPath",destinationPath);
     history.push(destinationPath);
   }
 
@@ -80,14 +80,14 @@ class Dashboard extends React.Component {
   }
 
   _expensesFormating(customers){
-    console.log("customers",customers);
+    // console.log("customers",customers);
     return customers && customers.status > 0 && customers.data.length > 0 ? customers.data.map(item => {
       return {price: parseFloat(item.price).toFixed(2),type: this.expenseType[parseInt(item.type,10)],created_at: item.created_at.split(".")[0], id: item.id};
     }) : [];
   }
 
   _customersFormating(expenses){
-    console.log("expenses",expenses);
+    // console.log("expenses",expenses);
     return expenses && expenses.status > 0 && expenses.data.length > 0 ? expenses.data.map( item => {
       return {name: item.name, phone: item.phone , employee:item.employee_id ? item.employee_id.name : '暂无', created_at: item.created_at.split(".")[0], id: item.id};
     }) : [];
@@ -113,8 +113,8 @@ class Dashboard extends React.Component {
     const customersFormat = this._customersFormating(customers);
     const expensesFormat = this._expensesFormating(expenses);
 
-    console.log("customersFormat",customersFormat);
-    console.log("expensesFormat",expensesFormat);
+    // console.log("customersFormat",customersFormat);
+    // console.log("expensesFormat",expensesFormat);
 
     return (
       <div>

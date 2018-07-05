@@ -3,26 +3,103 @@
  */
 
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
-import { CUSTOMERS_INIT_ACTION } from './constants';
-import { getInitAction } from './actions';
+import { 
+	CUSTOMERS_FETCH_ACTION,
+	CUSTOMERDETAIL_FETCH_ACTION,
+	EMPLOYEES_SUGGESTION_FETCH_ACTION
+ } from './constants';
+import { 
+	getCustomersSuccessAction,
+	getCustomersFailAction,
+	getCustomerDetailSuccessAction,
+	getCustomerDetailFailAction,
+	getEmployeesSuggestionSuccessAction,
+	getEmployeesSuggestionFailAction
+ } from './actions';
 
 import request from 'utils/request';
 
 /**
  * Github repos request/response handler
  */
-export function* getInit(action) {
+export function* getCustomers(action) {
   // Select username from store
-  
+  const { token, page } = action.params || {};
+	try{
+		const customersData = yield call(request,`//localhost:1337/customers?page=${page}`,{
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'content-type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			}
+		});
+		yield put(getCustomersSuccessAction({
+			status: 1,
+			data: customersData,
+		}));
+	}catch(err){
+		yield put(getCustomersFailAction({
+			status: -1,
+			data: {err},
+		}));
+	}
+}
 
+export function* getCustomerDetail(action){
+	const { token, id } = action.params || {};
+	try{
+		const customerDetailData = yield call(request,`//localhost:1337/customers/${id}`,{
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'content-type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			}
+		});
+		console.log("saga customerDetailData",customerDetailData);
+		yield put(getCustomerDetailSuccessAction({
+			status: 1,
+			data: customerDetailData,
+		}));
+	}catch(err){
+		yield put(getCustomerDetailFailAction({
+			status: -1,
+			data: {err},
+		}));
+	}
+}
 
-  
+export function* getEmployeesSuggestion(action){
+	const { token } = action.params || {};
+	try{
+		const employeesResult = yield call(request,`//localhost:1337/employees`,{
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'content-type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			}
+		});
+		console.log("saga employeesResult",employeesResult);
+		yield put(getEmployeesSuggestionSuccessAction({
+			status: 1,
+			data: employeesResult,
+		}));
+	}catch(err){
+		yield put(getEmployeesSuggestionFailAction({
+			status: -1,
+			data: {err},
+		}));
+	}
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
 export default function* () {
-  yield takeLatest(CUSTOMERS_INIT_ACTION, getInitSaga);
+  yield takeLatest(CUSTOMERS_FETCH_ACTION, getCustomers);
+  yield takeLatest(CUSTOMERDETAIL_FETCH_ACTION, getCustomerDetail);
+  yield takeLatest(EMPLOYEES_SUGGESTION_FETCH_ACTION, getEmployeesSuggestion);
 }
 

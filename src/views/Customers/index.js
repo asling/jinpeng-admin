@@ -4,14 +4,11 @@ import Customers from "./Customers.jsx";
 import CustomerDetail from "./CustomerDetail.jsx";
 class CustomersWrapper extends React.Component{
 	constructor(props){
+		console.log("CustomersWrapper");
 		super(props);
 		this.state = {
 			token: loadToken(),
 		}
-	}
-
-	componentWillMount(){
-		console.log("props",this.props);
 	}
 
 	shouldComponentUpdate(nextProps,nextState){
@@ -35,8 +32,8 @@ class CustomersWrapper extends React.Component{
 		return (
 				<AuthContext.Consumer>
 					{accessToken => {
-						console.log("accessToken DashboardPage",accessToken);
-						console.log("params",params);
+						console.log("accessToken Customers",accessToken);
+						console.log("Customers params",params);
 						let propsFormat = props;
 						if(accessToken && accessToken.code > 0){
 							propsFormat = Object.assign({},props,{accessToken:accessToken.token});

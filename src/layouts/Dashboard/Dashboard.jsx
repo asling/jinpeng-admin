@@ -10,15 +10,10 @@ import dashboardRoutes from "routes/dashboard.jsx";
 import appStyle from "assets/jss/material-dashboard-react/appStyle.jsx";
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
-import { injectReducer, injectSagas } from "../../getInjectors";
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { authAction, logoffAction } from "../actions";
-
-// function styles(themes){
-//   return {}
-// }
 
 const errorLoading = (err) => {
   console.error('Dynamic page loading failed', err); // eslint-disable-line no-console
@@ -41,17 +36,6 @@ const makeSwitchRoutes = () => {
         }
         return <Route path={path} render={(props)=>{
           const Component = prop.component;
-          if (prop.saga && prop.reducer){
-            // console.log("prop.reducer",prop.reducer);
-            // console.log("prop.saga",prop.saga);
-            // const importModules = Promise.all([prop.reducer, prop.saga]);
-            // importModules.then(([reducer,sagas]) => {
-            //   // console.log("reducer",reducer);
-            //   injectReducer('dashboard', reducer.default);
-            //   injectSagas(sagas.default);
-            // }).catch(errorLoading);
-          }
-          
           return <Component {...props} />
         }} key={key} />;
       })}

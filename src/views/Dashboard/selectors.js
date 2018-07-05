@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 
 const selectDashboard = (state) => {
   // console.log("state",state);
-  // console.log("state.get('dashboard')",state.get('dashboard'));
+  console.log("yyyyyyy",state.get('dashboard'));
   return state.get('dashboard');
 };
 

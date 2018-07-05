@@ -5,12 +5,15 @@ import {
 	CUSTOMERDETAIL_FETCH_ACTION,
 	CUSTOMERDETAIL_FETCH_SUCCESS_ACTION,
 	CUSTOMERDETAIL_FETCH_FAIL_ACTION,
+	EMPLOYEES_SUGGESTION_FETCH_ACTION,
+	EMPLOYEES_SUGGESTION_FETCH_SUCCESS_ACTION,
+	EMPLOYEES_SUGGESTION_FETCH_FAIL_ACTION,
  } from "./constants";
 
-export const getCustomersAction = ({token,id}) => {
+export const getCustomersAction = ({token,page}) => {
 	return {
 		type: CUSTOMERS_FETCH_ACTION,
-		params:{token,id},
+		params:{token,page},
 	}
 }
 
@@ -49,3 +52,23 @@ export const getCustomerDetailFailAction = (err) => {
 	}
 }
 
+export const getEmployeesSuggestion = (token) => {
+	return {
+		type: EMPLOYEES_SUGGESTION_FETCH_ACTION,
+		params: token
+	}
+}
+
+export const getEmployeesSuggestionSuccessAction = (data) => {
+	return {
+		type: EMPLOYEES_SUGGESTION_FETCH_SUCCESS_ACTION,
+		data,
+	}
+}
+
+export const getEmployeesSuggestionFailAction = (err) => {
+	return {
+		type: EMPLOYEES_SUGGESTION_FETCH_FAIL_ACTION,
+		err,
+	}
+}
