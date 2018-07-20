@@ -43,6 +43,9 @@
     "deploy": "serve -s build",
     "prod": "serve -s build"
   },
+  "pre-push": [
+    "build"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/asling/jinpeng-admin.git"
