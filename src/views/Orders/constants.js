@@ -1,1 +1,3 @@
-export const ORDERS_INIT_ACTION = 'jpAdmin/Orders/ORDERS_INIT_ACTION';
+export const ORDERS_FETCH_ACTION = 'jpAdmin/Orders/ORDERS_FETCH_ACTION';
+export const ORDERS_FETCH_SUCCESS_ACTION = 'jpAdmin/Orders/ORDERS_FETCH_SUCCESS_ACTION';
+export const ORDERS_FETCH_FAIL_ACTION = 'jpAdmin/Orders/ORDERS_FETCH_FAIL_ACTION';

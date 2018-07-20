@@ -25,12 +25,12 @@ const makeSwitchRoutes = () => {
     switchRoutes:(
       <Switch>
       {dashboardRoutes.map((prop, key) => {
-        // console.log("prop",prop);
+        
         let path;
         if (prop.redirect)
           return <Redirect from={prop.path} to={prop.to} key={key} />;
         if(prop.params){
-          path = `${prop.path}/:${prop.params}`;
+          path = `${prop.path}/:${prop.params}?`;
         }else{
           path = prop.path;
         }
@@ -92,7 +92,6 @@ class App extends React.Component {
           ) : (
             <div className={classes.map}>{switchRoutesWrapper.switchRoutes}</div>
           )}
-          {this.getRoute() ? <Footer /> : null}
         </div>
       </div>
     );

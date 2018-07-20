@@ -3,30 +3,48 @@
  */
 
 import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
-import { ORDERS_INIT_ACTION } from './constants';
-import { getInitAction } from './actions';
+import { 
+	ORDERS_FETCH_ACTION
+ } from './constants';
+import { 
+	getOrdersSuccessAction,
+	getOrdersFailAction
+ } from './actions';
 
 import request from 'utils/request';
 
 /**
  * Github repos request/response handler
  */
-export function* getInit(action) {
+export function* getOrders(action) {
   // Select username from store
-  
-
-
-  
+  const { token, page } = action.params || {};
+	try{
+		const ordersData = yield call(request,`//localhost:1337/orders`,{
+			method: 'GET',
+			mode: 'cors',
+			headers: {
+				'content-type': 'application/json',
+				'Authorization': `Bearer ${token}`
+			}
+		});
+		console.log("ordersData",ordersData);
+		yield put(getOrdersSuccessAction({
+			status: 1,
+			data: ordersData,
+		}));
+	}catch(err){
+		yield put(getOrdersFailAction({
+			status: -1,
+			data: {err},
+		}));
+	}
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export function* getInitSaga() {
-  yield takeLatest(ORDERS_INIT_ACTION, getInitSaga);
+export default function* () {
+  yield takeLatest(ORDERS_FETCH_ACTION, getOrders);
 }
 
-// Bootstrap sagas
-export default [
-  getInitSaga,
-];

@@ -39,7 +39,7 @@ class CustomTable extends React.Component {
   }
 
   render(){
-    const { classes, tableHead, tableData, tableHeaderColor, tablePagination, theme } = this.props;
+    const { classes, tableHead, tableData, tableHeaderColor, tablePagination, theme, emptyRows } = this.props;
     return (
       <div className={classes.tableResponsive}>
         <Table className={classes.table}>
@@ -73,10 +73,15 @@ class CustomTable extends React.Component {
                 </TableRow>
               );
             })}
+            {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={tableData && tableData[0] ? tableData[0].length : 6} />
+                </TableRow>
+              )}
           </TableBody>
           <TableFooter>
             {tablePagination ? <TablePagination
-                    colSpan={2}
+                    colSpan={tableData && tableData[0] ? tableData[0].length : 2}
                     count={tablePagination.size}
                     rowsPerPage={tablePagination.rowsPerPage}
                     page={tablePagination.page}
@@ -138,7 +143,7 @@ CustomTable.propTypes = {
   ]),
   tableHead: PropTypes.arrayOf(PropTypes.string),
   tableData: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string,PropTypes.object]))),
-  tablePagination: PropTypes.instanceOf(Pagination)
+  tablePagination: PropTypes.object
 };
 
 export default withStyles(tableStyle, { withTheme: true })(CustomTable);

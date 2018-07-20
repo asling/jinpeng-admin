@@ -1,14 +1,22 @@
 import { fromJS } from 'immutable';
-import { ORDERS_INIT_ACTION } from "./constants";
+import { 
+	ORDERS_FETCH_ACTION,
+	ORDERS_FETCH_SUCCESS_ACTION,
+	ORDERS_FETCH_FAIL_ACTION,
+ } from "./constants";
 const initialState = fromJS({
-	orders: [],
-	ordersLoading: false,
+	orderList: [],
+	dataLoading: false,
 });
 
 function ordersReducer(state = initialState, action){
 	switch(action.type){
-		case ORDERS_INIT_ACTION:
-			return state.set("ordersLoading",true);
+		case ORDERS_FETCH_ACTION:
+			return state.set("dataLoading",true);
+		case ORDERS_FETCH_SUCCESS_ACTION:
+			return state.set("orderList",action.data).set("dataLoading",false);
+		case ORDERS_FETCH_FAIL_ACTION:
+			return state.set("orderList",action.err).set("dataLoading",false);
 		default: 
 			return state;
 	}

@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 import { Manager, Target, Popper } from "react-popper";
 import {
   withStyles,
@@ -11,9 +12,8 @@ import {
   ClickAwayListener,
   Hidden
 } from "material-ui";
-import { Person, Notifications, Dashboard, Search } from "@material-ui/icons";
+import { Person, Notifications, Dashboard, } from "@material-ui/icons";
 
-import { CustomInput, IconButton as SearchButton } from "components";
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/headerLinksStyle";
 
@@ -33,39 +33,22 @@ class HeaderLinks extends React.Component {
     const { open } = this.state;
     return (
       <div>
-        <CustomInput
-          formControlProps={{
-            className: classes.margin + " " + classes.search
-          }}
-          inputProps={{
-            placeholder: "Search",
-            inputProps: {
-              "aria-label": "Search"
-            }
-          }}
-        />
-        <SearchButton
-          color="white"
-          aria-label="edit"
-          customClass={classes.margin + " " + classes.searchButton}
-        >
-          <Search className={classes.searchIcon} />
-        </SearchButton>
+        
         <IconButton
           color="inherit"
-          aria-label="Dashboard"
+          aria-label="回到首页"
           className={classes.buttonLink}
         >
           <Dashboard className={classes.links} />
           <Hidden mdUp>
-            <p className={classes.linkText}>Dashboard</p>
+            <p className={classes.linkText}>首页</p>
           </Hidden>
         </IconButton>
         <Manager style={{ display: "inline-block" }}>
           <Target>
             <IconButton
               color="inherit"
-              aria-label="Notifications"
+              aria-label="消息通知"
               aria-owns={open ? "menu-list" : null}
               aria-haspopup="true"
               onClick={this.handleClick}
@@ -135,12 +118,13 @@ class HeaderLinks extends React.Component {
         </Manager>
         <IconButton
           color="inherit"
-          aria-label="Person"
+          aria-label="用户"
           className={classes.buttonLink}
+          component={Link} to="/user"
         >
           <Person className={classes.links} />
           <Hidden mdUp>
-            <p className={classes.linkText}>Profile</p>
+            <p className={classes.linkText}>个人资料</p>
           </Hidden>
         </IconButton>
       </div>

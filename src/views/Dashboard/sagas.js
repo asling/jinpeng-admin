@@ -18,7 +18,7 @@ import request from "utils/request";
 export function* getCustomers(action){
 	const { token } = action;
 	try{
-		const customersData = yield call(request,"//localhost:1337/customers?recent=1&recentNum=10",{
+		const customersData = yield call(request,"//localhost:1337/customers?offset=10",{
 			method: 'GET',
 			mode: 'cors',
 			headers: {

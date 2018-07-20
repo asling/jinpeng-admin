@@ -19,7 +19,7 @@ import { LinearProgress } from 'material-ui/Progress';
 import Validator, { makeCondition } from "utils/formfieldValidator";
 import { registerAction,registerErrorCancelAction } from '../actions';
 import { makeGlobalAuthLoading, makeGlobalRegisterError, makeGlobalAuthInfo } from "../selectors";
-import ErrorDialog from "components/ErrorDialog"; 
+import ErrorDialog from "components/CustomDialogs/ErrorDialog.jsx"; 
 function styles(themes){
   return {
     container: {

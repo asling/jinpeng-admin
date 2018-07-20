@@ -19,7 +19,7 @@ import { LinearProgress } from 'material-ui/Progress';
 //global data
 import { makeGlobalAuthLoading,makeGlobalLoginError, makeGlobalAuthInfo } from '../selectors';
 import { loginAction,loginErrorCancelAction } from '../actions';
-import ErrorDialog from "components/ErrorDialog"; 
+import ErrorDialog from "components/CustomDialogs/ErrorDialog.jsx"; 
 function styles(themes){
   return {
     container:{
