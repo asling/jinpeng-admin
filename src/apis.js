@@ -1,7 +1,7 @@
 let serviceHost;
 if(process.env.NODE_ENV === 'production'){
 	//production
-	serviceHost = '//apis.gptlcm.cn';
+	serviceHost = '//gptlcm.cn:1337';
 }else{
 	//development
 	serviceHost = '//localhost:1337';
