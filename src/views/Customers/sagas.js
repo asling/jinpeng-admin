@@ -17,6 +17,11 @@ import {
 	getEmployeesSuggestionFailAction
  } from './actions';
 
+import {
+	customersRequest,
+	employeesRequest
+} from "../../apis";
+
 import request from 'utils/request';
 
 /**
@@ -26,7 +31,7 @@ export function* getCustomers(action) {
   // Select username from store
   const { token, page } = action.params || {};
 	try{
-		const customersData = yield call(request,`//localhost:1337/customers?page=${page}`,{
+		const customersData = yield call(request,`${customersRequest}?page=${page}`,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -49,7 +54,7 @@ export function* getCustomers(action) {
 export function* getCustomerDetail(action){
 	const { token, id } = action.params || {};
 	try{
-		const customerDetailData = yield call(request,`//localhost:1337/customers/${id}`,{
+		const customerDetailData = yield call(request,`${customersRequest}/${id}`,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -73,7 +78,7 @@ export function* getCustomerDetail(action){
 export function* getEmployeesSuggestion(action){
 	const { token } = action.params || {};
 	try{
-		const employeesResult = yield call(request,`//localhost:1337/employees`,{
+		const employeesResult = yield call(request,`${employeesRequest}/employees`,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {

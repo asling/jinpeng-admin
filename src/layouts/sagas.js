@@ -12,6 +12,7 @@ import {
 	logoffFailAction
 	 } from "./actions";
 import { AUTH, LOGIN_ACTION, REGISTER_ACTION, LOGOFF_ACTION, LOGOFF_SUCCESS_ACTION, LOGOFF_FAIL_ACTION } from "./constants";
+import { loginRequest, registerRequest } from "../apis";
 import request from "utils/request";
 
 export function* goLogin(action){
@@ -19,7 +20,7 @@ export function* goLogin(action){
 	console.log("action",action);
 	try{
 		// const timeout = yield call(delay,function(){return 1;},1500);
-		const loginResult = yield call(request,"//localhost:1337/auth/local",{
+		const loginResult = yield call(request,loginRequest,{
 			method: 'POST',
 			mode: 'cors',
 			headers: {
@@ -49,7 +50,7 @@ export function* goRegister(action){
 	const { user_name, password, repassword } = action;
 	try{
 		// const timeout = yield call(delay,function(){return 1;},1500);
-		const data = yield call(request,'//localhost:1337/auth/local/register',{
+		const data = yield call(request,registerRequest,{
 			method: 'POST',
 			mode: 'cors',
 			headers: {

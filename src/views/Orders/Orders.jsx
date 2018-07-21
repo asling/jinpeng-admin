@@ -10,7 +10,7 @@ import {
 import { Edit } from "@material-ui/icons";
 import { RegularCard, Table, ItemGrid } from "components";
 import emploeesStyle from "assets/jss/material-dashboard-react/emploeesStyle";  
-import expensesTypeName from "assets/json/expensesTypeName.json";
+import ordersStatusName from "assets/json/ordersStatusName.json";
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
@@ -40,7 +40,7 @@ class Orders extends React.Component{
 
   _ordersFormating(orders){
     return orders && orders.status > 0 && orders.data.length > 0 ? orders.data.map( item => {
-      return { price: item.price , status: expensesTypeName[item.status]['name'], customer_id: item.customer_id, created_at: item.created_at.split(".")[0], rebate: item.rebate};
+      return { price: item.price , status: ordersStatusName[item.status] && ordersStatusName[item.status]['name'], customer_id: item.customer_id, created_at: item.created_at.split(".")[0], rebate: item.rebate};
     }) : [];
   }
 
@@ -74,7 +74,7 @@ class Orders extends React.Component{
 
     const _makeOrdersTableData = (data) => {
         return data.slice(page * pagination.rowsPerPage, page * pagination.rowsPerPage + pagination.rowsPerPage).map( item => {
-                      return [item.type, parseFloat(item.price).toFixed(2), item.customer_id['name'] ? item.customer_id['name'] : '尚无' , item.created_at, item.message];
+                      return [parseFloat(item.price).toFixed(2), item.status , item.customer_id['name'] ? item.customer_id['name'] : '尚无' , item.created_at, item.rebate ? item.rebate : '无'];
             })
     }
     const ordersTableData = _makeOrdersTableData(orderListFormat);

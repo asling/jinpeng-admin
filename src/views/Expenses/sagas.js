@@ -10,7 +10,7 @@ import {
 	getExpensesSuccessAction,
 	getExpensesFailAction
  } from './actions';
-
+import { expensesRequest } from "../../apis";
 import request from 'utils/request';
 
 /**
@@ -20,7 +20,7 @@ export function* getExpenses(action) {
   // Select username from store
   const { token, page } = action.params || {};
 	try{
-		const expensesData = yield call(request,`//localhost:1337/expenses`,{
+		const expensesData = yield call(request,expensesRequest,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {

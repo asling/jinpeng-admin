@@ -19,7 +19,7 @@ import {
 	updateEmployeeSuccessAction,
 	updateEmployeeFailAction
  } from './actions';
-
+import { employeesRequest } from "../../apis";
 import request from 'utils/request';
 
 /**
@@ -29,7 +29,7 @@ export function* getEmployees(action) {
   // Select username from store
   const { token, page } = action.params || {};
 	try{
-		const employeesData = yield call(request,`//localhost:1337/employees`,{
+		const employeesData = yield call(request,employeesRequest,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -53,7 +53,7 @@ export function* getEmployees(action) {
 export function* getEmployeeDetail(action){
 	const { token, id } = action.params || {};
 	try{
-		const employeeDetailData = yield call(request,`//localhost:1337/employees/${id}`,{
+		const employeeDetailData = yield call(request,`${employeesRequest}/${id}`,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -77,7 +77,7 @@ export function* getEmployeeDetail(action){
 export function* createEmployee(action){
 	const { formData, token } = action.params || {};
 	try{
-		const createEmployeeResult = yield call(request,`//localhost:1337/employees`,{
+		const createEmployeeResult = yield call(request,employeesRequest,{
 			method: 'POST',
 			mode: 'cors',
 			headers: {
@@ -102,7 +102,7 @@ export function* createEmployee(action){
 export function* updateEmployee(action){
 	const { formData, token, id } = action.params || {}; 
 	try{
-		const updateEmployeeResult = yield call(request,`//localhost:1337/employees/${id}`,{
+		const updateEmployeeResult = yield call(request,`${employeesRequest}/${id}`,{
 			method: 'PUT',
 			mode: 'cors',
 			headers: {

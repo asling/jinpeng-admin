@@ -13,12 +13,16 @@ import {
 	getDashboardExpensesSuccessAction,
 	getDashboardExpensesFailAction,
 } from './actions';
+import {
+	customersRequest,
+	expensesRequest
+} from "../../apis";
 import request from "utils/request";
 
 export function* getCustomers(action){
 	const { token } = action;
 	try{
-		const customersData = yield call(request,"//localhost:1337/customers?offset=10",{
+		const customersData = yield call(request,`${customersRequest}?offset=10`,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {
@@ -45,7 +49,7 @@ export function* getCustomersSaga(){
 export function* getExpenses(action){
 	const { token } = action;
 	try{
-		const expensesData = yield call(request,"//localhost:1337/expenses?recent=1&recentNum=10",{
+		const expensesData = yield call(request,`${expensesRequest}?offset=10`,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {

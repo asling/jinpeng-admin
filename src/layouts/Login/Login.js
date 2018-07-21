@@ -280,7 +280,7 @@ export class Login extends React.PureComponent { // eslint-disable-line react/pr
         <LogoWrapper to="/">
         <Logo className={classes.logoClassName} />
         </LogoWrapper>
-        <h1 className={classes.title}>Please login</h1>
+        <h1 className={classes.title}>请登录</h1>
         <form onSubmit={this.formSubmit} noValidate autoComplete="off" >
           <TextField
             inputRef={(ref)=>this.username = ref}
@@ -330,8 +330,8 @@ export class Login extends React.PureComponent { // eslint-disable-line react/pr
           />
           <Button disabled={submitEnabled} type="submit" variant="raised" fullWidth color="primary">Login</Button>
           {authLoading && <LinearProgress  />}
-          <Tooltip title="GO TO REGISTER" className={classes.tooltip}>
-            <Link to="/register">I have no account yet</Link>
+          <Tooltip title="前往注册" className={classes.tooltip}>
+            <Link to="/register">我还没账号</Link>
           </Tooltip>
         </form>
         { loginError ? <WarnningDialog content={warnningString} open={!!warnningString} callback={()=>{

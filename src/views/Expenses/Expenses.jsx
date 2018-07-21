@@ -40,7 +40,7 @@ class Expenses extends React.Component{
 
   _expensesFormating(expenses){
     return expenses && expenses.status > 0 && expenses.data.length > 0 ? expenses.data.map( item => {
-      return {type: expensesTypeName[item.type]['name'], price: item.price , customer_id: item.customer_id, created_at: item.created_at.split(".")[0], message: item.message};
+      return {type: expensesTypeName[item.type] && expensesTypeName[item.type]['name'], price: item.price , customer_id: item.customer_id, created_at: item.created_at.split(".")[0], message: item.message};
     }) : [];
   }
 

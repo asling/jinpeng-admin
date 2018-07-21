@@ -41,7 +41,7 @@ class Emploees extends React.Component{
 
   _employeesFormating(employees){
     return employees && employees.status > 0 && employees.data.length > 0 ? employees.data.map( item => {
-      return {name: item.name, phone: item.phone , title: employeesTitleName[item.title]['name'], created_at: item.created_at.split(".")[0], id: item.id};
+      return {name: item.name, phone: item.phone , title: employeesTitleName[item.title] && employeesTitleName[item.title]['name'], created_at: item.created_at.split(".")[0], id: item.id};
     }) : [];
   }
 

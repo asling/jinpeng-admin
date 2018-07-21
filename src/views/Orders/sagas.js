@@ -10,7 +10,7 @@ import {
 	getOrdersSuccessAction,
 	getOrdersFailAction
  } from './actions';
-
+import { ordersRequest } from "../../apis";
 import request from 'utils/request';
 
 /**
@@ -20,7 +20,7 @@ export function* getOrders(action) {
   // Select username from store
   const { token, page } = action.params || {};
 	try{
-		const ordersData = yield call(request,`//localhost:1337/orders`,{
+		const ordersData = yield call(request, ordersRequest,{
 			method: 'GET',
 			mode: 'cors',
 			headers: {

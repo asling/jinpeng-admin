@@ -233,7 +233,7 @@ export class Register extends React.PureComponent { // eslint-disable-line react
         <LogoWrapper to="/">
         <Logo className={classes.logoClassName} />
         </LogoWrapper>
-        <h1 className={classes.title}>Please Register</h1>
+        <h1 className={classes.title}>注册账号</h1>
         <form onSubmit={this.formSubmit} noValidate autoComplete="off" >
           <TextField
             inputRef={(ref)=>this.username = ref}
@@ -324,8 +324,8 @@ export class Register extends React.PureComponent { // eslint-disable-line react
 
           <Button  disabled={submitEnabled} type="submit" variant="raised" fullWidth color="primary">Register</Button>
           {authLoading && <LinearProgress  /> }
-          <Tooltip title="LOGIN" className={classes.tooltip}>
-            <Link to="/login">I already have a account</Link>
+          <Tooltip title="前往登录" className={classes.tooltip}>
+            <Link to="/login">我已经有账号了</Link>
           </Tooltip>
            { registerError ? <WarnningDialog content={warnningString} open={!!warnningString} callback={()=>{
             this.props.registerErrorCancel();

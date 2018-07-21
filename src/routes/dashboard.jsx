@@ -22,8 +22,8 @@ import {
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    sidebarName: "Dashboard",
-    navbarName: "Material Dashboard",
+    sidebarName: "首页",
+    navbarName: "首页",
     icon: Dashboard,
     component: DashboardPage,
     // saga: import("views/Dashboard/sagas"),
